@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chatbox Desplegable</title>
+  <link rel="stylesheet" type="text/css" href="/static/style.css">
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('chatToggle').addEventListener('click', function() {
+        var chatbox = document.getElementById('chatbox');
+        chatbox.style.display = chatbox.style.display === 'none' ? 'block' : 'none';
+      });
+    
+      document.getElementById('chatClose').addEventListener('click', function() {
+        document.getElementById('chatbox').style.display = 'none';
+      });
+    
+      document.getElementById('userInput').addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+          var userInput = document.getElementById('userInput');
+          var message = userInput.value.trim();
+          if (message) {
+            addMessage('user', message);
+            userInput.value = '';
+            
+            sendAutoReply(message);
+          }
+        }
+      });
+    
+      function addMessage(sender, message) {
+        var chatMessages = document.getElementById('chatMessages');
+        var messageElement = document.createElement('div');
+        messageElement.classList.add('message');
+        messageElement.innerHTML = '<strong>' + sender + ':</strong> ' + message;
+        chatMessages.appendChild(messageElement);
+      }
+    
+      function sendAutoReply(message) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/get', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+            var response = JSON.parse(xhr.responseText).response;
+            addMessage('Chatbot', response);
+            
+          }
+        };
+        xhr.send('msg=' + encodeURIComponent(message));
+      }
+    });
+    </script>
+    
+
+</head>
+<body>
+  <button id="chatToggle">Abrir Chat</button>
+  <div id="chatbox">
+    <div id="chatHeader">
+      <h2>Chatbox</h2>
+      <button id="chatClose">X</button>
+    </div>
+    <div id="chatContent">
+      <div id="chatMessages"></div>
+      <input type="text" id="userInput" name="userInput" placeholder="Escribe un mensaje">
+    </div>
+  </div>
+
+  
+</body>
+</html>

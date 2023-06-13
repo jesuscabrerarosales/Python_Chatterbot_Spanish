@@ -1,0 +1,41 @@
+Notas sobre la creacion del chat bot
+
+- Presenta incompatibilidad con la ultima version de python la libreria de chatterbot
+- Se estara desarrollando en la version 3.8.0
+- Nombre del bot 'Trovador' por relacion al poeta cesar vallejo
+
+Implementacion basica hasta el momento de las librerias usadas
+
+#########
+
+pip install chatterbot
+pip install spacy==2.3.5
+pip install chatterbot-corpus
+python -m spacy download en_core_web_sm
+python -m spacy validate
+pip install Flask
+
+Appdata/Local/Programs/Python/Python37/Lib/site-packages/chatterbot/tagging.py 
+Cambiar en el archivo  la linea 13:
+self.nlp = spacy.load(self.language.ISO_639_1.lower())
+Por esto:
+if self.language.ISO_639_1.lower() == 'en':
+    self.nlp = spacy.load('en_core_web_sm')
+else:
+    self.nlp = spacy.load(self.language.ISO_639_1.lower())
+
+
+#########
+
+Documentos a configurar para que responda el chatbot:
+Manual para Tramite de Grado de Bachiller V.2.0.pdf
+PASO 2- Para Ingresar la Solicitud para el Tramite de Titulo Profesional V.2.0 (1).pdf
+TRAMITE PARA CONSTANCIA TESIS - PASOS PARA SUBIR EL TRABAJO DE INVESTIGACIÓN  O TESIS.pdf
+TUORIAL.doc
+TUTORIAL PLATAFORMA TRILCE - REGISTRO DE PRODUCTOS ACADÉMICOS - ESTUDIANTES II MAESTRIA Y DOCTORADO 2022 III.pdf
+
+#########
+
+
+archivo chatbot.py es el ejecutable, si se quiere testear con index.html cambiar la linea 44
+archivo chatbo.py trabajo con main.html, style.css
